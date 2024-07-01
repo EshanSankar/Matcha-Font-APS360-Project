@@ -159,11 +159,13 @@ def generate_dataset():
         if not os.path.exists(f"{OUTPUT_DIRECTORY}/{font_name}"):
             os.makedirs(f"{OUTPUT_DIRECTORY}/{font_name}")
 
-        random.seed(0)
+        
         text_index = 0
         
         # Generate random values
         for j in range(NUM_IMAGES_PER_FONT):
+            
+            random.seed(j)
             
             font_size = random.randint(FONT_SIZE[0], FONT_SIZE[1])
             line_spacing = random.randint(0, LINE_SPACING)
