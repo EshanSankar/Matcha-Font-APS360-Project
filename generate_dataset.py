@@ -94,7 +94,7 @@ def text_to_image(
         text: str
         font_filepath: str
         font_size: int
-        start_point: list
+        start_position: list
         line_spacing: int
         rotation: int
     """
