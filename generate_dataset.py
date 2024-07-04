@@ -190,4 +190,6 @@ def generate_dataset():
 
 if __name__ == "__main__":
 
+    print(len(get_font_list()))
+    
     generate_dataset()
