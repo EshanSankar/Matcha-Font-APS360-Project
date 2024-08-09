@@ -25,7 +25,7 @@ def plot_training_curve(path):
     plt.show()
 
 
-def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH):
+def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, encoder_class=None):
 
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=num_images)
@@ -36,7 +36,10 @@ def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DA
     ground_truth = [classes[np.argmax(labels[j], axis=0)] for j in range(num_images)]
 
     # Get model predictions
-    net = model_class()
+    if encoder_class == None:
+        net = model_class()
+    else:
+        net = model_class(encoder_class())
     net.load_state_dict(torch.load(model_path))
     outputs = net(images)
     outputs = np.argmax(outputs.detach().numpy(), axis=1)    
@@ -75,7 +78,7 @@ def visualize_autoencoder_output(num_images, model_path, model_class, dataset_pa
     images = images.cpu().detach().numpy()
     
     
-    fig, axs = plt.subplots(2, num_images, figsize=(20, 20))
+    fig, axs = plt.subplots(2, num_images, figsize=(20, 10))
 
     for i in range(num_images):
         
@@ -88,7 +91,8 @@ def visualize_autoencoder_output(num_images, model_path, model_class, dataset_pa
             axs[j,i].set_xticklabels([])
             axs[j,i].set_xticks([])
             axs[j,i].set_yticks([])
-        
+    fig.tight_layout()
+    plt.show()
 
 def generate_confusion_matrix(model_class, model_path, dataset_path=FONT_DATASET_PATH):
 
