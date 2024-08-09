@@ -16,23 +16,14 @@ def init_device():
     print("Cuda Available:", torch.cuda.is_available())
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
-def custom_collate_fn(batch):
-    
-    # Use the default collate function to batch the data (images)
-    batch = default_collate(batch)
-    images, labels = batch
-    
-    # Apply one-hot encoding to the labels
-    labels = F.one_hot(labels)
-
-    return images, labels
-
 def load_dataset(dataset_path, batch_size):
 
     # Convert the images to tensors and normalize them
     transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)), transforms.Grayscale(num_output_channels=1)])
     gestures_dataset = torchvision.datasets.ImageFolder(root = dataset_path, transform=transform)
-
+    
+    num_classes = len(gestures_dataset.classes)
+    
     # Create a list of indices for all the images in the dataset
     dataset_size = len(gestures_dataset)
     indices = list(range(dataset_size))
@@ -50,6 +41,17 @@ def load_dataset(dataset_path, batch_size):
     val_sampler = SubsetRandomSampler(val_indices)
     test_sampler = SubsetRandomSampler(test_indices)
 
+    def custom_collate_fn(batch):
+    
+        # Use the default collate function to batch the data (images)
+        batch = default_collate(batch)
+        images, labels = batch
+        
+        # Apply one-hot encoding to the labels
+        labels = F.one_hot(labels, num_classes=num_classes)
+
+        return images, labels
+
     # Create the dataloaders for the training, validation, and testing sets
     train_loader = torch.utils.data.DataLoader(gestures_dataset, batch_size=batch_size,sampler=train_sampler,collate_fn=custom_collate_fn)
     val_loader = torch.utils.data.DataLoader(gestures_dataset, batch_size=batch_size,sampler=val_sampler,collate_fn=custom_collate_fn)
@@ -58,6 +60,7 @@ def load_dataset(dataset_path, batch_size):
     print("Done Loading Data")
 
     return train_loader, val_loader, test_loader, gestures_dataset.classes
+
 
 
 def total_error(outputs, labels):
@@ -124,6 +127,8 @@ def evaluate_auto_encoder(net, loader, criterion):
 
 
 def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30):
+
+    torch.cuda.empty_cache()
 
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
@@ -197,7 +202,7 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
         # Save the best model
         if val_err[epoch] <= min_validation_error:
             min_validation_error = val_err[epoch]
-            torch.save(net.state_dict(), f"{model_name}/best_baseline_model")
+            torch.save(net.state_dict(), f"{model_name}/best_model")
 
     print('Finished Training')
 
@@ -207,9 +212,13 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
     np.savetxt(f"{model_name}/val_err.csv", val_err)
     np.savetxt(f"{model_name}/val_loss.csv", val_loss)
 
-def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH):
+def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, encoder_class =None):
 
-    net = model_class().to(device)
+    if encoder_class == None:
+        net = model_class().to(device)
+    else:
+        encoder = encoder_class()
+        net = model_class(encoder).to(device)
     
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=128)
@@ -225,6 +234,8 @@ def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH):
     
     
 def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30):
+
+    torch.cuda.empty_cache()
 
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)

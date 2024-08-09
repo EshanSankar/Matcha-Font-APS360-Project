@@ -4,7 +4,7 @@ import os
 
 # Copied fonts directory from C:\Windows\Fonts to the project directory.
 FONT_DIRECTORY = "fonts"
-OUTPUT_DIRECTORY = "fonts_image_dataset"
+OUTPUT_DIRECTORY = "fonts_image_dataset2"
 TEXT_FILE = "1984.txt"
 IMAGE_SIZE = 224
 NUM_FONTS = 10
@@ -13,6 +13,7 @@ NUM_IMAGES_PER_FONT = 1000
 ROTATION = 0
 FONT_SIZE = (15,15)
 NUM_CHARS = (3,100)
+UNIQUE_FONTS = True
 
 def get_font_list():
     """
@@ -30,7 +31,13 @@ def get_font_list():
             font_name = file.split(".")[0]
 
             fonts.append((FONT_DIRECTORY + "\\" + file, font_name))
-
+            
+    if UNIQUE_FONTS:
+        for font in fonts:
+            for font2 in fonts:
+                if font[1].startswith(font2[1]):
+                    fonts.remove(font)
+    print(fonts)
     return fonts
 
 
