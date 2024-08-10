@@ -28,9 +28,6 @@ def load_dataset(dataset_path, batch_size):
     dataset_size = len(gestures_dataset)
     indices = list(range(dataset_size))
 
-    np.random.seed(0)
-    np.random.shuffle(indices)
-
     # Split the indices into 60% Training 20% Validation 20% Testing. We need most of the data for training the network, but we must also set aside a bit for validation to fine tune the network, and test the network at the very end.
     split1 = int(0.6 * dataset_size)
     split2 = int(0.8 * dataset_size)
@@ -76,7 +73,7 @@ def total_error(outputs, labels):
     
     return (zeros != labels).any(dim=1).float().sum()
 
-def evaluate(net, loader, criterion, calculate_error = True):
+def evaluate(net, loader, criterion):
     
     net.eval()
     
@@ -199,6 +196,12 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
         # Print the statistics
         print(f"Epoch {epoch + 1}: Train err: {train_err[epoch]}, Train loss: {train_loss[epoch]} | Validation err: {val_err[epoch]}, Validation loss: {val_loss[epoch]}")
         
+        # Write the loss/err into CSV file for plotting later
+        np.savetxt(f"{model_name}/train_err.csv", train_err)
+        np.savetxt(f"{model_name}/train_loss.csv", train_loss)
+        np.savetxt(f"{model_name}/val_err.csv", val_err)
+        np.savetxt(f"{model_name}/val_loss.csv", val_loss)
+        
         # Save the best model
         if val_err[epoch] <= min_validation_error:
             min_validation_error = val_err[epoch]
@@ -206,11 +209,7 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
 
     print('Finished Training')
 
-    # Write the loss/err into CSV file for plotting later
-    np.savetxt(f"{model_name}/train_err.csv", train_err)
-    np.savetxt(f"{model_name}/train_loss.csv", train_loss)
-    np.savetxt(f"{model_name}/val_err.csv", val_err)
-    np.savetxt(f"{model_name}/val_loss.csv", val_loss)
+    
 
 def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, encoder_class =None):
 
@@ -299,11 +298,13 @@ def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH
             min_validation_loss = val_loss[epoch]
             torch.save(net.state_dict(), f"{model_name}/best_model")
         
+        # Write the loss/err into CSV file for plotting later
+        np.savetxt(f"{model_name}/train_loss.csv", train_loss)
+        np.savetxt(f"{model_name}/val_loss.csv", val_loss)
+        
         # Print the statistics
         print(f"Epoch {epoch + 1}: Train loss: {train_loss[epoch]} | Validation loss: {val_loss[epoch]}")
     
     print('Finished Training')
 
-    # Write the loss/err into CSV file for plotting later
-    np.savetxt(f"{model_name}/train_loss.csv", train_loss)
-    np.savetxt(f"{model_name}/val_loss.csv", val_loss)
+    
