@@ -50,7 +50,6 @@ def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DA
     # Print Images
     for i in range(num_images):
         img = images[i]
-        img = img / 2 + 0.5
         npimg = img.numpy()
 
         axs[i].imshow(np.transpose(npimg, (1, 2, 0)), cmap='gray')
@@ -84,9 +83,8 @@ def visualize_autoencoder_output(num_images, model_path, model_class, dataset_pa
         
         for j in range(2):
             img = images[i] if j == 0 else outputs[i]
-            img = img / 2 + 0.5
 
-            axs[j,i].imshow(np.transpose(img, (1, 2, 0)), cmap='gray')
+            axs[j,i].imshow(np.transpose(img, (1, 2, 0)), cmap='gray', vmin=-1,vmax=1)
             axs[j,i].set_yticklabels([])
             axs[j,i].set_xticklabels([])
             axs[j,i].set_xticks([])
