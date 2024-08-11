@@ -25,7 +25,7 @@ def plot_training_curve(path):
     plt.show()
 
 
-def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, encoder_class=None):
+def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, model_params=[]):
 
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=num_images)
@@ -36,10 +36,7 @@ def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DA
     ground_truth = [classes[np.argmax(labels[j], axis=0)] for j in range(num_images)]
 
     # Get model predictions
-    if encoder_class == None:
-        net = model_class()
-    else:
-        net = model_class(encoder_class())
+    net = model_class(*model_params)
     net.load_state_dict(torch.load(model_path))
     outputs = net(images)
     outputs = np.argmax(outputs.detach().numpy(), axis=1)    

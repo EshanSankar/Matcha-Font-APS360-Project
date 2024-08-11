@@ -123,18 +123,14 @@ def evaluate_auto_encoder(net, loader, criterion):
     return loss
 
 
-def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30):
+def train_net(model_class, model_name, model_params = [], dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None):
 
     torch.cuda.empty_cache()
 
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
 
-    if encoder != None:
-        net = model_class(encoder).to(device)
-    else:
-        net = model_class().to(device)
-    
+    net = model_class(*model_params).to(device)
 
     # Create the directory to store model if it does not exist
     if not os.path.exists(model_name):
@@ -147,17 +143,20 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size)
     
-    
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.AdamW(net.parameters(), lr=learning_rate,weight_decay=1e-3)
 
+    if patience != None:
+        num_epochs = 1000
+    
     # Set up some numpy arrays to store the loss/error rate
     train_err = np.zeros(num_epochs)
     train_loss = np.zeros(num_epochs)
     val_err = np.zeros(num_epochs)
     val_loss = np.zeros(num_epochs)
     
-    min_validation_error = 1
+    min_validation_loss = 10000000
+    stop_counter = 0
     
     print("Starting Training")
     
@@ -203,21 +202,23 @@ def train_net(model_class, model_name, encoder = None, dataset_path = FONT_DATAS
         np.savetxt(f"{model_name}/val_loss.csv", val_loss)
         
         # Save the best model
-        if val_err[epoch] <= min_validation_error:
-            min_validation_error = val_err[epoch]
+        if val_err[epoch] <= min_validation_loss:
+            min_validation_loss = val_err[epoch]
             torch.save(net.state_dict(), f"{model_name}/best_model")
+            stop_counter = 0
+        
+        if patience != None and stop_counter >= patience:
+            break
+        
+        stop_counter += 1
 
     print('Finished Training')
 
     
 
-def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, encoder_class =None):
+def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, model_params = []):
 
-    if encoder_class == None:
-        net = model_class().to(device)
-    else:
-        encoder = encoder_class()
-        net = model_class(encoder).to(device)
+    net = model_class(*model_params).to(device)
     
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=128)
@@ -232,7 +233,7 @@ def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, encoder_
     print(f"Test error: {test_err}, Test loss: {test_loss}")
     
     
-def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30):
+def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None):
 
     torch.cuda.empty_cache()
 
@@ -252,15 +253,18 @@ def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size)
     
-    
     criterion = nn.MSELoss()
     optimizer = optim.Adam(net.parameters(), lr=learning_rate)
+
+    if patience != None:
+        num_epochs = 1000
 
     # Set up some numpy arrays to store the loss/error rate
     train_loss = np.zeros(num_epochs)
     val_loss = np.zeros(num_epochs)
     
     min_validation_loss= 10000000
+    stop_counter = 0
     
     print("Starting Training")
     
@@ -297,6 +301,7 @@ def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH
         if val_loss[epoch] <= min_validation_loss:
             min_validation_loss = val_loss[epoch]
             torch.save(net.state_dict(), f"{model_name}/best_model")
+            stop_counter = 0
         
         # Write the loss/err into CSV file for plotting later
         np.savetxt(f"{model_name}/train_loss.csv", train_loss)
@@ -304,6 +309,10 @@ def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH
         
         # Print the statistics
         print(f"Epoch {epoch + 1}: Train loss: {train_loss[epoch]} | Validation loss: {val_loss[epoch]}")
+        
+        if patience != None and stop_counter >= patience:
+            break
+        stop_counter += 1
     
     print('Finished Training')
 
