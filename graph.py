@@ -25,21 +25,19 @@ def plot_training_curve(path):
     plt.show()
 
 
-def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, encoder_class=None):
+def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, model_params=[]):
 
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=num_images)
     dataiter = iter(test_loader)
     images, labels = next(dataiter)
+    images, labels = images.to(device), labels.to(device)
     
     # Get ground truth labels
     ground_truth = [classes[np.argmax(labels[j], axis=0)] for j in range(num_images)]
 
     # Get model predictions
-    if encoder_class == None:
-        net = model_class()
-    else:
-        net = model_class(encoder_class())
+    net = model_class(*model_params)
     net.load_state_dict(torch.load(model_path))
     outputs = net(images)
     outputs = np.argmax(outputs.detach().numpy(), axis=1)    
@@ -50,7 +48,6 @@ def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DA
     # Print Images
     for i in range(num_images):
         img = images[i]
-        img = img / 2 + 0.5
         npimg = img.numpy()
 
         axs[i].imshow(np.transpose(npimg, (1, 2, 0)), cmap='gray')
@@ -84,9 +81,8 @@ def visualize_autoencoder_output(num_images, model_path, model_class, dataset_pa
         
         for j in range(2):
             img = images[i] if j == 0 else outputs[i]
-            img = img / 2 + 0.5
 
-            axs[j,i].imshow(np.transpose(img, (1, 2, 0)), cmap='gray')
+            axs[j,i].imshow(np.transpose(img, (1, 2, 0)), cmap='gray', vmin=-1,vmax=1)
             axs[j,i].set_yticklabels([])
             axs[j,i].set_xticklabels([])
             axs[j,i].set_xticks([])
