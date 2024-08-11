@@ -10,9 +10,10 @@ IMAGE_SIZE = 224
 NUM_FONTS = 10
 LINE_SPACING = 20
 NUM_IMAGES_PER_FONT = 1000
-ROTATION = 10
-FONT_SIZE = (15,30)
+ROTATION = 0
+FONT_SIZE = (15, 15)
 NUM_CHARS = (3,100)
+UNIQUE_FONTS = True
 
 def get_font_list():
     """
@@ -30,9 +31,27 @@ def get_font_list():
             font_name = file.split(".")[0]
 
             fonts.append((FONT_DIRECTORY + "\\" + file, font_name))
-
+            
+    if UNIQUE_FONTS:
+        fonts_tobe_removed = []
+        for x in range(len(fonts)):
+            for y in range(len(fonts)):
+                if fonts[y] == fonts[x]:
+                    continue
+                if fonts[y][1].startswith(fonts[x][1]):
+                    fonts_tobe_removed.append(fonts[y])
+                    
+        for f in range(len(fonts_tobe_removed)):
+            if fonts_tobe_removed[f] in fonts:
+                fonts.remove(fonts_tobe_removed[f])
+            
+        
+        # for font in fonts:
+        #     for font2 in fonts:
+        #         if fonts[font].startswith(fonts[font2]):
+        #             fonts.remove(font)
+    print(fonts)
     return fonts
-
 
 def getsize(font, text):
     """

@@ -11,10 +11,7 @@ import os
 
 FONT_DATASET_PATH = "./fonts_image_dataset"
 
-def init_device():
-    global device
-    print("Cuda Available:", torch.cuda.is_available())
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 def load_dataset(dataset_path, batch_size):
 
@@ -27,6 +24,8 @@ def load_dataset(dataset_path, batch_size):
     # Create a list of indices for all the images in the dataset
     dataset_size = len(gestures_dataset)
     indices = list(range(dataset_size))
+    np.random.seed(0)
+    np.random.shuffle(indices)
 
     # Split the indices into 60% Training 20% Validation 20% Testing. We need most of the data for training the network, but we must also set aside a bit for validation to fine tune the network, and test the network at the very end.
     split1 = int(0.6 * dataset_size)
@@ -123,14 +122,13 @@ def evaluate_auto_encoder(net, loader, criterion):
     return loss
 
 
-def train_net(model_class, model_name, model_params = [], dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None):
+def train_net(net, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None):
 
     torch.cuda.empty_cache()
 
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
 
-    net = model_class(*model_params).to(device)
 
     # Create the directory to store model if it does not exist
     if not os.path.exists(model_name):
@@ -216,9 +214,8 @@ def train_net(model_class, model_name, model_params = [], dataset_path = FONT_DA
 
     
 
-def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, model_params = []):
+def test_net(net, model_path, dataset_path = FONT_DATASET_PATH):
 
-    net = model_class(*model_params).to(device)
     
     # Load the data
     train_loader, val_loader, test_loader, classes = load_dataset(dataset_path, batch_size=128)
@@ -233,14 +230,14 @@ def test_net(model_class, model_path, dataset_path = FONT_DATASET_PATH, model_pa
     print(f"Test error: {test_err}, Test loss: {test_loss}")
     
     
-def train_auto_encoder(model_class, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None):
+def train_auto_encoder(net, model_name, dataset_path = FONT_DATASET_PATH, batch_size=128, learning_rate=0.01, num_epochs=30, patience=None, device):
 
     torch.cuda.empty_cache()
 
     torch.manual_seed(0)
     torch.cuda.manual_seed(0)
 
-    net = model_class().to(device)
+
     
     # Create the directory to store model if it does not exist
     if not os.path.exists(model_name):
