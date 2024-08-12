@@ -3,26 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from train import load_dataset, FONT_DATASET_PATH
 
-def plot_training_curve(path):
-    train_err = np.loadtxt("{}/train_err.csv".format(path))
-    val_err = np.loadtxt("{}/val_err.csv".format(path))
-    train_loss = np.loadtxt("{}/train_loss.csv".format(path))
-    val_loss = np.loadtxt("{}/val_loss.csv".format(path))
-    plt.title("Train vs Validation Error")
-    num_epochs = len(train_err)
-    plt.plot(range(1,num_epochs+1), train_err, label="Train")
-    plt.plot(range(1,num_epochs+1), val_err, label="Validation")
-    plt.xlabel("Epoch")
-    plt.ylabel("Error")
-    plt.legend(loc='best')
-    plt.show()
-    plt.title("Train vs Validation Loss")
-    plt.plot(range(1,num_epochs+1), train_loss, label="Train")
-    plt.plot(range(1,num_epochs+1), val_loss, label="Validation")
-    plt.xlabel("Epoch")
-    plt.ylabel("Loss")
-    plt.legend(loc='best')
-    plt.show()
+
 
 
 def visualize_output(num_images, model_path, model_class, dataset_path = FONT_DATASET_PATH, model_params=[]):
