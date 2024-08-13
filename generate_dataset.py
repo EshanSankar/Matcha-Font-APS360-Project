@@ -7,13 +7,17 @@ FONT_DIRECTORY = "fonts"
 OUTPUT_DIRECTORY = "fonts_image_dataset"
 TEXT_FILE = "1984.txt"
 IMAGE_SIZE = 224
-NUM_FONTS = 75
+NUM_FONTS = 51
 LINE_SPACING = 20
-NUM_IMAGES_PER_FONT = 2000
+NUM_IMAGES_PER_FONT = 4000
 ROTATION = 0
 FONT_SIZE = (15, 15)
 NUM_CHARS = (3,100)
 UNIQUE_FONTS = True
+REMOVED_FONTS = [('fonts\\arialbd.ttf', 'arialbd'), ('fonts\\arialbi.ttf', 'arialbi'), ('fonts\\ariali.ttf', 'ariali'), ('fonts\\calibrib.ttf', 'calibrib'), ('fonts\\calibrii.ttf', 'calibrii'), ('fonts\\calibril.ttf', 'calibril'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\calibriz.ttf', 'calibriz'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\Candarab.ttf', 'Candarab'), ('fonts\\Candarai.ttf', 'Candarai'), ('fonts\\Candaral.ttf', 'Candaral'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\Candaraz.ttf', 'Candaraz'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\comicbd.ttf', 'comicbd'), ('fonts\\comici.ttf', 'comici'), ('fonts\\comicz.ttf', 'comicz'), ('fonts\\consolab.ttf', 'consolab'), ('fonts\\consolai.ttf', 'consolai'), ('fonts\\consolaz.ttf', 'consolaz'), ('fonts\\constanb.ttf', 'constanb'), ('fonts\\constani.ttf', 'constani'), ('fonts\\constanz.ttf', 'constanz'), ('fonts\\corbelb.ttf', 'corbelb'), ('fonts\\corbeli.ttf', 'corbeli'), ('fonts\\corbell.ttf', 'corbell'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\corbelz.ttf', 'corbelz'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\courbd.ttf', 'courbd'), ('fonts\\courbi.ttf', 'courbi'), ('fonts\\couri.ttf', 'couri'), ('fonts\\Dengb.ttf', 'Dengb'), ('fonts\\Dengl.ttf', 'Dengl'), ('fonts\\ebrimabd.ttf', 'ebrimabd'), ('fonts\\framdit.ttf', 'framdit'), ('fonts\\gadugib.ttf', 'gadugib'), ('fonts\\georgiab.ttf', 'georgiab'), ('fonts\\georgiai.ttf', 'georgiai'), ('fonts\\georgiaz.ttf', 'georgiaz'), ('fonts\\HPSimplified_BdIt.ttf', 'HPSimplified_BdIt'), ('fonts\\HPSimplified_It.ttf', 'HPSimplified_It'), ('fonts\\HPSimplified_Lt.ttf', 'HPSimplified_Lt'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), ('fonts\\HPSimplified_Rg.ttf', 'HPSimplified_Rg'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), 
+('fonts\\malgunbd.ttf', 'malgunbd'), ('fonts\\malgunsl.ttf', 'malgunsl'), ('fonts\\mmrtextb.ttf', 'mmrtextb'), ('fonts\\NirmalaB.ttf', 'NirmalaB'), ('fonts\\NirmalaS.ttf', 'NirmalaS'), ('fonts\\ntailub.ttf', 'ntailub'), ('fonts\\palab.ttf', 'palab'), ('fonts\\palabi.ttf', 'palabi'), ('fonts\\palai.ttf', 'palai'), ('fonts\\palabi.ttf', 'palabi'), ('fonts\\phagspab.ttf', 'phagspab'), ('fonts\\segoeprb.ttf', 'segoeprb'), ('fonts\\segoescb.ttf', 'segoescb'), ('fonts\\segoeuib.ttf', 'segoeuib'), ('fonts\\segoeuii.ttf', 'segoeuii'), ('fonts\\segoeuil.ttf', 'segoeuil'), ('fonts\\segoeuisl.ttf', 'segoeuisl'), ('fonts\\segoeuiz.ttf', 'segoeuiz'), ('fonts\\seguibli.ttf', 'seguibli'), ('fonts\\seguisbi.ttf', 'seguisbi'), ('fonts\\SitkaVF-Italic.ttf', 'SitkaVF-Italic'), ('fonts\\tahomabd.ttf', 'tahomabd'), ('fonts\\taileb.ttf', 'taileb'), ('fonts\\timesbd.ttf', 'timesbd'), ('fonts\\timesbi.ttf', 'timesbi'), ('fonts\\timesi.ttf', 'timesi'), ('fonts\\trebucbd.ttf', 'trebucbd'), ('fonts\\trebucbi.ttf', 'trebucbi'), ('fonts\\trebucit.ttf', 'trebucit'), ('fonts\\verdanab.ttf', 'verdanab'), ('fonts\\verdanai.ttf', 'verdanai'), ('fonts\\verdanaz.ttf', 'verdanaz'), ('fonts\\arialbd.ttf', 'arialbd'), ('fonts\\arialbi.ttf', 'arialbi'), ('fonts\\ariali.ttf', 'ariali'), ('fonts\\calibrib.ttf', 'calibrib'), ('fonts\\calibrii.ttf', 'calibrii'), ('fonts\\calibril.ttf', 'calibril'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\calibriz.ttf', 'calibriz'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\Candarab.ttf', 'Candarab'), ('fonts\\Candarai.ttf', 'Candarai'), ('fonts\\Candaral.ttf', 'Candaral'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\Candaraz.ttf', 'Candaraz'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\comicbd.ttf', 'comicbd'), ('fonts\\comici.ttf', 'comici'), ('fonts\\comicz.ttf', 'comicz'), ('fonts\\consolab.ttf', 'consolab'), ('fonts\\consolai.ttf', 'consolai'), ('fonts\\consolaz.ttf', 'consolaz'), ('fonts\\constanb.ttf', 'constanb'), ('fonts\\constani.ttf', 'constani'), ('fonts\\constanz.ttf', 'constanz'), ('fonts\\corbelb.ttf', 'corbelb'), ('fonts\\corbeli.ttf', 'corbeli'), ('fonts\\corbell.ttf', 'corbell'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\corbelz.ttf', 'corbelz'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\courbd.ttf', 'courbd'), ('fonts\\courbi.ttf', 'courbi'), ('fonts\\couri.ttf', 'couri'), ('fonts\\Dengb.ttf', 'Dengb'), 
+('fonts\\Dengl.ttf', 'Dengl'), ('fonts\\ebrimabd.ttf', 'ebrimabd'), ('fonts\\framdit.ttf', 'framdit'), ('fonts\\gadugib.ttf', 'gadugib'), ('fonts\\georgiab.ttf', 'georgiab'), ('fonts\\georgiai.ttf', 'georgiai'), ('fonts\\georgiaz.ttf', 'georgiaz'), ('fonts\\HPSimplified_BdIt.ttf', 'HPSimplified_BdIt'), ('fonts\\HPSimplified_It.ttf', 'HPSimplified_It'), ('fonts\\HPSimplified_Lt.ttf', 'HPSimplified_Lt'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), ('fonts\\HPSimplified_Rg.ttf', 'HPSimplified_Rg'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), ('fonts\\malgunbd.ttf', 'malgunbd'), ('fonts\\malgunsl.ttf', 'malgunsl'), ('fonts\\mmrtextb.ttf', 'mmrtextb'), ('fonts\\NirmalaB.ttf', 'NirmalaB'), ('fonts\\NirmalaS.ttf', 'NirmalaS'), ('fonts\\ntailub.ttf', 'ntailub'), ('fonts\\palab.ttf', 'palab'), ('fonts\\palabi.ttf', 'palabi'), ('fonts\\palai.ttf', 'palai'), ('fonts\\palabi.ttf', 'palabi'), ('fonts\\phagspab.ttf', 'phagspab'), ('fonts\\segoeprb.ttf', 'segoeprb'), ('fonts\\segoescb.ttf', 'segoescb'), ('fonts\\segoeuib.ttf', 'segoeuib'), ('fonts\\segoeuii.ttf', 'segoeuii'), ('fonts\\segoeuil.ttf', 'segoeuil'), ('fonts\\segoeuisl.ttf', 'segoeuisl'), ('fonts\\segoeuiz.ttf', 'segoeuiz'), ('fonts\\seguibli.ttf', 'seguibli'), ('fonts\\seguisbi.ttf', 'seguisbi'), ('fonts\\SitkaVF-Italic.ttf', 'SitkaVF-Italic'), ('fonts\\tahomabd.ttf', 'tahomabd'), ('fonts\\taileb.ttf', 'taileb'), ('fonts\\timesbd.ttf', 'timesbd'), ('fonts\\timesbi.ttf', 'timesbi'), ('fonts\\timesi.ttf', 'timesi'), ('fonts\\trebucbd.ttf', 'trebucbd'), ('fonts\\trebucbi.ttf', 'trebucbi'), ('fonts\\trebucit.ttf', 'trebucit'), ('fonts\\verdanab.ttf', 'verdanab'), ('fonts\\verdanai.ttf', 'verdanai'), ('fonts\\verdanaz.ttf', 'verdanaz'),
+('fonts\\cambriai.ttf', 'cambriai'), ('fonts\\cambriaz.ttf', 'cambriaz'), ('fonts\\hpsimplifiedhans-light.ttf', 'hpsimplifiedhans-light'), ('fonts\\hpsimplifiedhans-regular.ttf', 'hpsimplifiedhans-regular'), ('fonts\\hpsimplifiedjpan-light.ttf', 'hpsimplifiedjpan-light'), ('fonts\\hpsimplifiedjpan-regular.ttf', 'hpsimplifiedjpan-regular'), ('fonts\\holomdl2.ttf', 'holomdl2'), ('fonts\\LeelaUIb.ttf', 'LeelaUIb'), ('fonts\\LeelUIsl.ttf', 'LeelUIsl'), ('fonts\\Montserrat-Medium.ttf', 'Montserrat-Medium'), ('fonts\\marlett.ttf', 'marlett'), ('fonts\\SansSerifCollection.ttf', 'SansSerifCollection'), ('fonts\\segmdl2.ttf', 'segmdl2'), ('fonts\\SegoeIcons.ttf', 'SegoeIcons'), ('fonts\\seguibl.ttf', 'seguibl'), ('fonts\\seguihis.ttf', 'seguihis'), ('fonts\\seguisli.ttf', 'seguisli'), ('fonts\\seguisb.ttf', 'seguisb'), ('fonts\\seguisym.ttf', 'seguisym'), ('fonts\\SegUIVar.ttf', 'SegUIVar'), ('fonts\\simhei.ttf', 'simhei'), ('fonts\\simsunb.ttf', 'simsunb'), ('fonts\\webdings.ttf', 'webdings'), ('fonts\\wingding.ttf', 'wingding')]
 
 def get_font_list():
     """
@@ -32,24 +36,20 @@ def get_font_list():
 
             fonts.append((FONT_DIRECTORY + "\\" + file, font_name))
             
-    if UNIQUE_FONTS:
-        fonts_tobe_removed = []
-        for x in range(len(fonts)):
-            for y in range(len(fonts)):
-                if fonts[y] == fonts[x]:
-                    continue
-                if fonts[y][1].startswith(fonts[x][1]):
-                    fonts_tobe_removed.append(fonts[y])
+    fonts_tobe_removed = REMOVED_FONTS
+    # if UNIQUE_FONTS:
+    #     for x in range(len(fonts)):
+    #         for y in range(len(fonts)):
+    #             if fonts[y] == fonts[x]:
+    #                 continue
+    #             if fonts[y][1].startswith(fonts[x][1]):
+    #                 fonts_tobe_removed.append(fonts[y])
+    #                 print(fonts_tobe_removed)
                     
-        for f in range(len(fonts_tobe_removed)):
-            if fonts_tobe_removed[f] in fonts:
-                fonts.remove(fonts_tobe_removed[f])
+    for f in range(len(fonts_tobe_removed)):
+        if fonts_tobe_removed[f] in fonts:
+            fonts.remove(fonts_tobe_removed[f])
             
-        
-        # for font in fonts:
-        #     for font2 in fonts:
-        #         if fonts[font].startswith(fonts[font2]):
-        #             fonts.remove(font)
     print(fonts)
     return fonts
 
