@@ -9,9 +9,9 @@ TEXT_FILE = "1984.txt"
 IMAGE_SIZE = 224
 NUM_FONTS = 51
 LINE_SPACING = 20
-NUM_IMAGES_PER_FONT = 4000
-ROTATION = 0
-FONT_SIZE = (15, 15)
+NUM_IMAGES_PER_FONT = 2000
+ROTATION = 10
+FONT_SIZE = (15, 30)
 NUM_CHARS = (3,100)
 UNIQUE_FONTS = True
 REMOVED_FONTS = [('fonts\\arialbd.ttf', 'arialbd'), ('fonts\\arialbi.ttf', 'arialbi'), ('fonts\\ariali.ttf', 'ariali'), ('fonts\\calibrib.ttf', 'calibrib'), ('fonts\\calibrii.ttf', 'calibrii'), ('fonts\\calibril.ttf', 'calibril'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\calibriz.ttf', 'calibriz'), ('fonts\\calibrili.ttf', 'calibrili'), ('fonts\\Candarab.ttf', 'Candarab'), ('fonts\\Candarai.ttf', 'Candarai'), ('fonts\\Candaral.ttf', 'Candaral'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\Candaraz.ttf', 'Candaraz'), ('fonts\\Candarali.ttf', 'Candarali'), ('fonts\\comicbd.ttf', 'comicbd'), ('fonts\\comici.ttf', 'comici'), ('fonts\\comicz.ttf', 'comicz'), ('fonts\\consolab.ttf', 'consolab'), ('fonts\\consolai.ttf', 'consolai'), ('fonts\\consolaz.ttf', 'consolaz'), ('fonts\\constanb.ttf', 'constanb'), ('fonts\\constani.ttf', 'constani'), ('fonts\\constanz.ttf', 'constanz'), ('fonts\\corbelb.ttf', 'corbelb'), ('fonts\\corbeli.ttf', 'corbeli'), ('fonts\\corbell.ttf', 'corbell'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\corbelz.ttf', 'corbelz'), ('fonts\\corbelli.ttf', 'corbelli'), ('fonts\\courbd.ttf', 'courbd'), ('fonts\\courbi.ttf', 'courbi'), ('fonts\\couri.ttf', 'couri'), ('fonts\\Dengb.ttf', 'Dengb'), ('fonts\\Dengl.ttf', 'Dengl'), ('fonts\\ebrimabd.ttf', 'ebrimabd'), ('fonts\\framdit.ttf', 'framdit'), ('fonts\\gadugib.ttf', 'gadugib'), ('fonts\\georgiab.ttf', 'georgiab'), ('fonts\\georgiai.ttf', 'georgiai'), ('fonts\\georgiaz.ttf', 'georgiaz'), ('fonts\\HPSimplified_BdIt.ttf', 'HPSimplified_BdIt'), ('fonts\\HPSimplified_It.ttf', 'HPSimplified_It'), ('fonts\\HPSimplified_Lt.ttf', 'HPSimplified_Lt'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), ('fonts\\HPSimplified_Rg.ttf', 'HPSimplified_Rg'), ('fonts\\HPSimplified_LtIt.ttf', 'HPSimplified_LtIt'), 
@@ -50,7 +50,6 @@ def get_font_list():
         if fonts_tobe_removed[f] in fonts:
             fonts.remove(fonts_tobe_removed[f])
             
-    print(fonts)
     return fonts
 
 def getsize(font, text):
@@ -67,7 +66,7 @@ def getsize(font, text):
     """
     left, top, right, bottom = font.getbbox(text)
 
-    return right + left, bottom + top
+    return abs(right + left), abs(bottom + top)
 
 
 def draw_rotated_text(image, font, text, angle, x, y):
