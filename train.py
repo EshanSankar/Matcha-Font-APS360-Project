@@ -27,6 +27,9 @@ def load_dataset(dataset_path, batch_size):
     # Create a list of indices for all the images in the dataset
     dataset_size = len(gestures_dataset)
     indices = list(range(dataset_size))
+    
+    np.random.seed(0)
+    np.random.shuffle(indices)
 
     # Split the indices into 60% Training 20% Validation 20% Testing. We need most of the data for training the network, but we must also set aside a bit for validation to fine tune the network, and test the network at the very end.
     split1 = int(0.6 * dataset_size)
