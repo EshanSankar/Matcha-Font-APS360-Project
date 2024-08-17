@@ -1,2 +1,3 @@
-fonts_image_dataset/primary_model/best_model
-primary_model2/best_model
+old_models.py
+fonts_image_dataset/
+fonts_image_dataset_no_rotations/
